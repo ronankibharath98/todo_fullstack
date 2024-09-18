@@ -9,7 +9,7 @@ dotenv.config({}); // Load env variables from .env file
 const app = express(); // Create express app
 
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     methods: 'GET,POST,PUT,DELETE',
     credentials: true
 };
@@ -35,8 +35,13 @@ app.use((err,req,res,next)=>{
     res.status(500).json({message: 'Something broke!',success:false});
 });
 
+//for deployement on vercel you do not need to 
+connectDB();
+
 // Start server
-app.listen(PORT,()=>{
-    connectDB();
-    console.log(`server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT,()=>{
+//     connectDB();
+//     console.log(`server is running on http://localhost:${PORT}`);
+// });
+
+export default app;
